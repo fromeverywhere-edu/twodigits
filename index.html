@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TWODIGITS</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            color: #000000;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 20px 40px;
+            color: #000000;
+            border-bottom: 1px solid #000000;
+        }
+
+        h1 {
+            font-family: 'Anton', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .cart-icon {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .cart-icon i {
+            font-size: 24px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: #000000;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .subjects {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .subject {
+            background-color: #ffffff;
+            width: 300px;
+            border: 1px solid #000000;
+            border-radius: 12px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .subject:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .subject h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .subject p {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .download-sample {
+            font-size: 14px;
+            color: #000000;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .download-sample i {
+            margin-right: 5px;
+        }
+
+        .action-buttons button {
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .action-buttons button:hover {
+            background-color: #333333;
+            transform: scale(1.05);
+        }
+
+        /* Cart Modal Styles */
+        #cart-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            background: #ffffff;
+            border: 1px solid #000000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        #cart-modal h2 {
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .cart-items {
+            margin: 20px 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .cart-total {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .cart-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .cart-buttons button {
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .cart-buttons button:hover {
+            background-color: #333333;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>TWODIGITS</h1>
+    <div class="cart-icon" onclick="openCart()">
+        <i>&#x1F6D2;</i> <!-- Cart Icon -->
+        <div class="cart-count" id="cart-count">0</div>
+    </div>
+</header>
+
+<section class="subjects">
+    <!-- Subject 1 -->
+    <div class="subject">
+        <h3>Database Management System</h3>
+        <p>Learn all about data structures, algorithms, and computer fundamentals.</p>
+        <p><strong>Price:</strong> ₹20</p>
+        <div class="download-sample">
+            <i>&#128194;</i> <span>Download Sample Notes</span>
+        </div>
+        <div class="action-buttons">
+            <button onclick="addToCart('Computer Science', 20)">Add to Cart</button>
+            <button onclick="directPurchase('Computer Science', 500)">Purchase</button>
+        </div>
+    </div>
+
+    <!-- Subject 2 -->
+    <div class="subject">
+        <h3>Operating Systems</h3>
+        <p>Understand IT concepts, networking, and database management systems.</p>
+        <p><strong>Price:</strong> ₹400</p>
+        <div class="download-sample">
+            <i>&#128194;</i> <span>Download Sample Notes</span>
+        </div>
+        <div class="action-buttons">
+            <button onclick="addToCart('Information Technology', 400)">Add to Cart</button>
+            <button onclick="directPurchase('Information Technology', 400)">Purchase</button>
+        </div>
+    </div>
+
+    <!-- Subject 3 -->
+    <div class="subject">
+        <h3>Computer Networks</h3>
+        <p>Understand IT concepts, networking, and database management systems.</p>
+        <p><strong>Price:</strong> ₹400</p>
+        <div class="download-sample">
+            <i>&#128194;</i> <span>Download Sample Notes</span>
+        </div>
+        <div class="action-buttons">
+            <button onclick="addToCart('Information Technology', 400)">Add to Cart</button>
+            <button onclick="directPurchase('Information Technology', 400)">Purchase</button>
+        </div>
+    </div>
+
+    <!-- Subject 4 -->
+    <div class="subject">
+        <h3>Theory of Computation</h3>
+        <p>Understand IT concepts, networking, and database management systems.</p>
+        <p><strong>Price:</strong> ₹400</p>
+        <div class="download-sample">
+            <i>&#128194;</i> <span>Download Sample Notes</span>
+        </div>
+        <div class="action-buttons">
+            <button onclick="addToCart('Information Technology', 400)">Add to Cart</button>
+            <button onclick="directPurchase('Information Technology', 400)">Purchase</button>
+        </div>
+    </div>
+
+    <!-- Subject 5 -->
+    <div class="subject">
+        <h3>Compiler Design</h3>
+        <p>Understand IT concepts, networking, and database management systems.</p>
+        <p><strong>Price:</strong> ₹400</p>
+        <div class="download-sample">
+            <i>&#128194;</i> <span>Download Sample Notes</span>
+        </div>
+        <div class="action-buttons">
+            <button onclick="addToCart('Information Technology', 400)">Add to Cart</button>
+            <button onclick="directPurchase('Information Technology', 400)">Purchase</button>
+        </div>
+    </div>
+
+    <!-- Subject 6 -->
+    <div class="subject">
+        <h3>Object Oriented Programming</h3>
+        <p>Understand IT concepts, networking, and database management systems.</p>
+        <p><strong>Price:</strong> ₹400</p>
+        <div class="download-sample">
+            <i>&#128194;</i> <span>Download Sample Notes</span>
+        </div>
+        <div class="action-buttons">
+            <button onclick="addToCart('Information Technology', 400)">Add to Cart</button>
+            <button onclick="directPurchase('Information Technology', 400)">Purchase</button>
+        </div>
+    </div>
+
+    <!-- Subject 7 -->
+    <div class="subject">
+        <h3>Data Structure & Algorithms</h3>
+        <p>Understand IT concepts, networking, and database management systems.</p>
+        <p><strong>Price:</strong> ₹400</p>
+        <div class="download-sample">
+            <i>&#128194;</i> <span>Download Sample Notes</span>
+        </div>
+        <div class="action-buttons">
+            <button onclick="addToCart('Information Technology', 400)">Add to Cart</button>
+            <button onclick="directPurchase('Information Technology', 400)">Purchase</button>
+        </div>
+    </div>
+</section>
+
+<div id="cart-modal">
+    <h2>Your Cart</h2>
+    <div class="cart-items" id="cart-items">
+        <!-- Items will be added dynamically -->
+    </div>
+    <div class="cart-total" id="cart-total">Total: ₹0</div>
+    <div class="cart-buttons">
+        <!-- Razorpay Payment Button -->
+        <button onclick="checkout()">Proceed to Payment</button>
+        <button onclick="closeCart()">Close</button>
+    </div>
+</div>
+
+<script>
+    let cart = [];
+    let total = 0;
+
+    function addToCart(item, price) {
+        cart.push({ name: item, price: price });
+        total += price;
+        document.getElementById('cart-count').textContent = cart.length;
+        alert(`${item} has been added to your cart!`);
+    }
+
+    function openCart() {
+        const cartItemsContainer = document.getElementById('cart-items');
+        cartItemsContainer.innerHTML = '';
+        cart.forEach((item, index) => {
+            cartItemsContainer.innerHTML += `
+                <div class="cart-item">
+                    <span>${item.name} - ₹${item.price}</span>
+                    <button onclick="removeFromCart(${index})">Remove</button>
+                </div>
+            `;
+        });
+        document.getElementById('cart-total').textContent = `Total: ₹${total}`;
+        document.getElementById('cart-modal').style.display = 'block';
+    }
+
+    function closeCart() {
+        document.getElementById('cart-modal').style.display = 'none';
+    }
+
+    function removeFromCart(index) {
+        total -= cart[index].price;
+        cart.splice(index, 1);
+        document.getElementById('cart-count').textContent = cart.length;
+        openCart();
+    }
+
+    function checkout() {
+        const options = {
+            "key": "rzp_test_NsA7gq2bbdP0ny", // Replace with your Razorpay Key
+            "amount": total * 100, // Amount in paise
+            "currency": "INR",
+            "name": "TWODIGITS",
+            "description": "Payment for subjects",
+            "image": "https://www.example.com/logo.png", // Optional logo URL
+            "handler": function (response) {
+                alert("Payment Successful: " + response.razorpay_payment_id);
+                cart = [];
+                total = 0;
+                document.getElementById('cart-count').textContent = '0';
+                closeCart();
+            },
+            "prefill": {
+                "name": "John Doe",
+                "email": "johndoe@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#000000"
+            }
+        };
+
+        const rzp1 = new Razorpay(options);
+        rzp1.open();
+    }
+
+    function directPurchase(item, price) {
+        const options = {
+            "key": "rzp_test_NsA7gq2bbdP0ny", // Replace with your Razorpay Key
+            "amount": price * 100, // Amount in paise
+            "currency": "INR",
+            "name": item,
+            "description": "Direct purchase for " + item,
+            "image": "https://www.example.com/logo.png", // Optional logo URL
+            "handler": function (response) {
+                alert("Payment Successful for " + item + ": " + response.razorpay_payment_id);
+            },
+            "prefill": {
+                "name": "John Doe",
+                "email": "johndoe@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#000000"
+            }
+        };
+
+        const rzp1 = new Razorpay(options);
+        rzp1.open();
+    }
+</script>
+
+</body>
+</html>
